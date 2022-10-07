@@ -1,0 +1,51 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Rooms</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="#" *ngFor="let room of rooms; let i = index">{{room.name}}</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Chat</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+
+
+    <form [formGroup]="chatForm" novalidate (ngSubmit)="onSend()" style="width: 100%">
+      <mat-list style="top:0">
+        <mat-list-item *ngFor="let message of messages">
+          <h3 matLine class="demo-2"> {{message.message}} </h3>
+          <p matLine> {{message.user}} on {{message.timestamp}} </p>
+        </mat-list-item>
+      </mat-list>
+      <mat-card class="shipping-card" style="bottom: 0;position:fixed;">
+        <mat-card-content>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="message" formControlName="message">
+              </mat-form-field>
+            </div>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!chatForm.valid">Send</button>
+            </mat-card-actions>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
